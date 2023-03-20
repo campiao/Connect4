@@ -123,36 +123,3 @@ def verificar_vencedor(board):
                     return True
     return False
 
-
-
-
-def play_px_py(board):
-
-    while  vericar_board_vazia(board):
-
-        imprimir_tabuleiro(board)
-
-        while(jogada_pX(int(input("Jogada: ")),board)==False):
-            imprimir_tabuleiro(board)
-            print("Movimento inválido\n")
-        imprimir_tabuleiro(board)
-
-        if verificar_vencedor(board):
-            print("JOGADOR X GANHOU \n")
-            break
-
-        while(jogada_pY(int(input("Jogada: ")),board)==False):
-            imprimir_tabuleiro(board)
-            print("Movimento inválido\n")
-        imprimir_tabuleiro(board)
-
-        if verificar_vencedor(board):
-            print("JOGADOR O GANHOU \n")
-            break
-
-    if(not vericar_board_vazia(board) and not verificar_vencedor(board)):
-        print("JOGO EMPATADO\n")
-
-
-
-play_px_py(board_inicial)
