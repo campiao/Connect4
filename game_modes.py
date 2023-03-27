@@ -1,5 +1,6 @@
-from game import *
-
+from board_methods import *
+from ai_players import *
+from player_vs_ai import *
 
 def jogador_vs_jogador(board):
     while vericar_board_vazia(board):
@@ -52,7 +53,7 @@ def jogador_vs_computador():
     print(f"Opçao escolhida: {ai_choices[ai_choice]}")
     match ai_choice:
         case 1:
-            minimax()
+            play_vs_minimax(board_inicial)
         case 2:
             alpha_beta_pruning()
         case 3:
