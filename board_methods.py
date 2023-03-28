@@ -47,9 +47,6 @@ def evaluation_segment(board, ai):
         evaluation=evaluation*-1
     return evaluation
 
-board_inicial = [[0,0,0,0,0,0,0],[2,0,0,0,0,0,0],[2,2,0,0,0,0,0],[1,1,0,0,0,0,0],[2,1,1,1,0,0,0],[2,1,1,1,2,2,2]]
-print(evaluation_segment(board_inicial))
-
 def game_over(board):
     return (not vericar_board_vazia(board)) or verificar_vencedor(board)
 

@@ -55,7 +55,7 @@ def jogador_vs_computador():
         case 1:
             play_vs_minimax(board_inicial, ai_player)
         case 2:
-            alpha_beta_pruning()
+            play_vs_alpha_beta(board_inicial, ai_player)
         case 3:
             monte_carlo_tree_search()
         case 4:
