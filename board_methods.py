@@ -29,7 +29,7 @@ def count(p, seq):
     return count
 
 
-def evaluation_segment(board):
+def evaluation_segment(board, ai):
     segments = segment(board)
     evaluation = 0
     for seq in segments:
@@ -41,6 +41,8 @@ def evaluation_segment(board):
         if qO == 0 and qX == 1: evaluation += 1
         if qO == 0 and qX == 2: evaluation += 10
         if qO == 0 and qX == 3: evaluation += 50
+    if ai == 1:
+        evaluation=evaluation*-1
     return evaluation
 
 #board_inicial = [[1,0,0,0,0,0,0],[0,1,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]

@@ -53,7 +53,7 @@ def jogador_vs_computador():
     print(f"Opçao escolhida: {ai_choices[ai_choice]}")
     match ai_choice:
         case 1:
-            play_vs_minimax(board_inicial)
+            play_vs_minimax(board_inicial, ai_player)
         case 2:
             alpha_beta_pruning()
         case 3:
