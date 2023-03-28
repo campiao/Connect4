@@ -2,9 +2,9 @@ from board_methods import *
 from ai_players import *
 
 def play_vs_minimax(board):
+    imprimir_tabuleiro(board)
     while vericar_board_vazia(board):
 
-        imprimir_tabuleiro(board)
 
         while not jogada_pX(int(input("Jogada: ")), board):
             imprimir_tabuleiro(board)
@@ -15,7 +15,8 @@ def play_vs_minimax(board):
             print("JOGADOR X GANHOU \n")
             break
 
-        move, value = minimax(board, 5, True)
+        move, value = minimax(board, 4, True)
+        print(value)
         do_move(board, move, 2)
         imprimir_tabuleiro(board)
 
