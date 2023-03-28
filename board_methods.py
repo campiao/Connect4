@@ -6,18 +6,20 @@ def segment(board):
     # horizontal
     for linha in range(6):
         for coluna in range(7):
-            segment = board[linha][coluna:4]
+            segment = board[linha][coluna:coluna+4]
             segments.append(segment)
-    # diagonal
-    for linha in range(3):
-        for coluna in range(4):
-            segment = [board[linha+i][coluna+i] for i in range(4)]
-            segments.append(segment)
-    # vertical
+    # vertical principal
     for coluna in range(7):
         for linha in range(3):
             segment = [board[linha+i][coluna] for i in range(4)]
             segments.append(segment)
+    #diagonal
+    for linha in range(len(board)-3):
+        for coluna in range(len(board[0])-3):
+            segment1 = [board[linha+i][coluna+i] for i in range(4)]
+            segment2=[board[linha+i][coluna+3-i]for i in range(4)]
+            segments.append(segment1)
+            segments.append(segment2)
     return segments
 
 
@@ -43,8 +45,8 @@ def evaluation_segment(board):
         if qO == 0 and qX == 3: evaluation += 50
     return evaluation
 
-#board_inicial = [[1,0,0,0,0,0,0],[0,1,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
-#print(evaluation_segment(board_inicial))
+board_inicial = [[0,0,0,0,0,0,0],[2,0,0,0,0,0,0],[2,2,0,0,0,0,0],[1,1,0,0,0,0,0],[2,1,1,1,0,0,0],[2,1,1,1,2,2,2]]
+print(evaluation_segment(board_inicial))
 
 def game_over(board):
     return (not vericar_board_vazia(board)) or verificar_vencedor(board)
