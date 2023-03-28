@@ -174,13 +174,20 @@ def verificar_vencedor(board):
 def get_valid_moves(board):
     moves = []
     for col in range(COLUNAS):
-        for line in range(LINHAS):
-            if board[line][col] == 0 and board[LINHAS-1][col] == 0:
-                moves.append(col)
-                break
+        line = last_line(board, col)
+        if line is not None:
+            moves.append(col)
     return moves
 
+def last_line(board, col):
+    for i in range(5,-1,-1):
+        if board[i][col]==0:
+            return i
+    return None
+
 def do_move(board, move, playerNum):
+    if move is None:
+        return
     for i in range(LINHAS):
         if board[i][move] == 0 and board[LINHAS-1][move] == 0:
             board[i][move] = playerNum
