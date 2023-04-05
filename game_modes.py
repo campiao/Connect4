@@ -57,7 +57,7 @@ def jogador_vs_computador():
         case 2:
             play_vs_alpha_beta(board_inicial, ai_player)
         case 3:
-            monte_carlo_tree_search()
+            play_vs_MCTS(board_inicial, ai_player)
         case 4:
             quit()
 

@@ -193,3 +193,85 @@ def do_move(board, move, playerNum):
         if board[i][move] == 0 and board[LINHAS-1][move] == 0:
             board[i][move] = playerNum
             return
+        
+##monte carlo
+
+import random
+import math
+
+# Returns a list of all legal actions that can be taken from the current state
+def get_legal_actions(board):
+    legal_actions = []
+    for col in range(7):
+        if board[0][col] == 0:
+            legal_actions.append(col)
+    return legal_actions
+
+# Returns the next state after a given action is taken in the current state
+def get_next_state(state, action, player):
+    num_rows = len(state)
+    num_cols = len(state[0])
+    new_state = [[state[row][col] for col in range(num_cols)] for row in range(num_rows)]
+    for row in range(num_rows-1, -1, -1):
+        if new_state[row][action] == 0:
+            new_state[row][action] = player
+            break
+    return new_state
+
+
+# Returns True if the current state is a terminal state (i.e. the game is over)
+def terminal_test(state):
+    for col in range(len(state)):
+        for row in range(len(state[0])):
+            if state[col][row] == 0:
+                continue
+
+            # Check horizontal
+            if col + 3 < len(state) and \
+                state[col][row] == state[col+1][row] == state[col+2][row] == state[col+3][row]:
+                return True
+
+            # Check vertical
+            if row + 3 < len(state[0]) and \
+                state[col][row] == state[col][row+1] == state[col][row+2] == state[col][row+3]:
+                return True
+
+            # Check diagonal up-right
+            if col + 3 < len(state) and row + 3 < len(state[0]) and \
+                state[col][row] == state[col+1][row+1] == state[col+2][row+2] == state[col+3][row+3]:
+                return True
+
+            # Check diagonal up-left
+            if col - 3 >= 0 and row + 3 < len(state[0]) and \
+                state[col][row] == state[col-1][row+1] == state[col-2][row+2] == state[col-3][row+3]:
+                return True
+
+    # Check tie
+    for col in range(len(state)):
+        if state[col][0] == 0:
+            return False
+
+    return True
+
+# Returns the result of the game (1 for player 1 win, -1 for player 2 win, 0 for tie)
+def get_result(state):
+    for col in range(len(state)):
+        for row in range(len(state[0])):
+            if state[col][row] == 0:
+                continue
+
+            # Check horizontal
+            if col + 3 < len(state) and \
+                state[col][row] == state[col+1][row] == state[col+2][row] == state[col+3][row]:
+                return 1 if state[col][row] == 1 else -1
+
+            # Check vertical
+            if row + 3 < len(state[0]) and \
+                state[col][row] == state[col][row+1] == state[col][row+2] == state[col][row+3]:
+                return 1 if state[col][row] == 1 else -1
+
+            # Check diagonal up-right
+            if col + 3 < len(state) and row + 3 < len(state[0]) and \
+                state[col][row] == state[col+1][row+1] == state[col+2][row+2] == state[col+3][row+3]:
+                return 1 if state[col][row] == 1 else -1
+            

@@ -93,3 +93,80 @@ def alpha_beta(board, depth, maximazingPlayer, alpha, beta, playernum, ai_player
                 break
         return final_move, value
 
+##MONTECARLO TREE SEARCH
+
+def MONTE_CARLO_TREE_SEARCH(state,num_iter):
+    #state,action,visits,wins,children,parent
+    print(state)
+    tree = [state,None,0,0,[],None]
+    print(tree)
+    for i in range(num_iter):
+        if not tree[4]:  # Verifica se tree[4] é uma lista vazia
+            EXPAND(tree)  # Adiciona um novo nó filho
+        leaf = SELECT(tree)
+        if leaf is None:
+            continue
+        #print("leaf",leaf)
+        child = EXPAND(leaf)
+        if child is None:
+            continue
+        #print("child",child)
+        result = SIMULATE(child)
+        #print("result",result)
+        BACK_PROPAGATE(result, child)
+    print(tree[4])
+    best_child = max(tree[4],key = lambda x:x[2])
+    return best_child[1]
+
+
+def UCT(node):
+    # calculate the UCT value of a node
+    if node[2] == 0:
+        return float('inf')
+    exploration = math.sqrt(math.log(node[2] + 1) / (node[3] + 1))
+    return node[3] / node[2] + 2 * exploration
+
+
+def EXPAND(node):
+    # add a new child node to the tree
+    legal_actions = get_legal_actions(node[0])
+    if not legal_actions:
+        return None
+    chosen_action = random.choice(legal_actions)
+    new_state = get_next_state(node[0], chosen_action, 2)
+    new_node = [new_state, chosen_action, 0, 0, [], node]
+    node[4].append(new_node)
+    return new_node
+
+def SELECT(node):
+    # select the most promising child of a node based on UCT value
+    while len(node[4]) > 0:
+        # skip over nodes with no children
+        child_nodes = [child for child in node[4] if child is not None]
+        if not child_nodes:
+            return None
+        child_scores = [(UCT(child), child) for child in child_nodes]
+        node = max(child_scores, key=lambda x: x[0])[1]
+        if node[0] is None:
+            return None
+    return node
+
+
+def SIMULATE(node):
+    state = node[0]
+    while not terminal_test(state):
+        legal_actions = get_legal_actions(state)
+        if not legal_actions:
+            return 0 # game ended in a tie
+        action = random.choice(legal_actions)
+        state = get_next_state(state, action, 2)
+    return get_result(state)
+
+def BACK_PROPAGATE(result, node):
+    # update the win and visit count of each node along the path from the given node to the root
+    while node is not None:
+        node[2] += 1
+        if result == 1:
+            node[3] += 1
+        node = node[5]
+
