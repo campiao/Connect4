@@ -3,7 +3,7 @@ from board_methods import *
 from time import sleep
 
 
-def ai_vs_ai(board, ai_player1, ai_player2):
+def ai_vs_ai(ai_player1, ai_player2):
     match ai_player1, ai_player2:
         case 1, 1:
             minimax_vs_minimax(board_inicial)
@@ -133,7 +133,7 @@ def alphabeta_vs_alphabeta(board):
             print("JOGADOR X GANHOU \n")
             break
 
-        move, value = alpha_beta(board, 4, True,-math.inf, math.inf, -1, 2)
+        move, value = alpha_beta(board, 4, True, -math.inf, math.inf, -1, 2)
         do_move(board, move, 2)
         sleep(1)
         imprimir_tabuleiro(board)

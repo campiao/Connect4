@@ -94,8 +94,6 @@ def alpha_beta(board, depth, maximazingPlayer, alpha, beta, playernum, ai_player
         return final_move, value
 
 
-##MONTECARLO TREE SEARCH
-
 def MONTE_CARLO_TREE_SEARCH(state, num_iter):
     # state,action,visits,wins,children,parent
     tree = [state, None, 0, 0, [], None]

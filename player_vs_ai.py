@@ -1,4 +1,3 @@
-from board_methods import *
 from ai_players import *
 
 

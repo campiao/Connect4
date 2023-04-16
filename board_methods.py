@@ -37,12 +37,18 @@ def evaluation_segment(board, ai):
     for seq in segments:
         qX = count(1, seq)
         qO = count(2, seq)
-        if qO == 2 and qX == 0: evaluation -= 10
-        if qO == 3 and qX == 0: evaluation -= 50
-        if qO == 1 and qX == 0: evaluation -= 1
-        if qO == 0 and qX == 1: evaluation += 1
-        if qO == 0 and qX == 2: evaluation += 10
-        if qO == 0 and qX == 3: evaluation += 50
+        if qO == 2 and qX == 0:
+            evaluation -= 10
+        if qO == 3 and qX == 0:
+            evaluation -= 50
+        if qO == 1 and qX == 0:
+            evaluation -= 1
+        if qO == 0 and qX == 1:
+            evaluation += 1
+        if qO == 0 and qX == 2:
+            evaluation += 10
+        if qO == 0 and qX == 3:
+            evaluation += 50
     if ai == 1:
         evaluation = evaluation * -1
     return evaluation
