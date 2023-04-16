@@ -1,6 +1,7 @@
 from board_methods import *
 from ai_players import *
 from player_vs_ai import *
+from ai_vs_ai import ai_vs_ai
 
 def jogador_vs_jogador(board):
     while vericar_board_vazia(board):
@@ -78,6 +79,8 @@ def computador_vs_computador():
     print(f"Opçao escolhida: {ai_choices[ai_player2]}")
     if ai_player2 == 4:
         quit()
+
+    ai_vs_ai(board_inicial,ai_player1,ai_player2)
 
 def pick_ai_adversarie(player_num):
     print(f"Escolha a AI do jogador {player_num}:\n"

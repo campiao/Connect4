@@ -75,7 +75,7 @@ def alpha_beta(board, depth, maximazingPlayer, alpha, beta, playernum, ai_player
                 value = new_score
                 final_move = move
             alpha = max(alpha, value)
-            if alpha>=beta:
+            if alpha >= beta:
                 break
         return final_move, value
     else:
@@ -89,54 +89,57 @@ def alpha_beta(board, depth, maximazingPlayer, alpha, beta, playernum, ai_player
                 value = new_score
                 final_move = move
             beta = min(beta, value)
-            if alpha>=beta:
+            if alpha >= beta:
                 break
         return final_move, value
 
+
 ##MONTECARLO TREE SEARCH
 
-def MONTE_CARLO_TREE_SEARCH(state,num_iter):
-    #state,action,visits,wins,children,parent
-    print(state)
-    tree = [state,None,0,0,[],None]
-    print(tree)
+def MONTE_CARLO_TREE_SEARCH(state, num_iter):
+    # state,action,visits,wins,children,parent
+    tree = [state, None, 0, 0, [], None]
+    flag = True
     for i in range(num_iter):
         if not tree[4]:  # Verifica se tree[4] é uma lista vazia
-            EXPAND(tree)  # Adiciona um novo nó filho
+            EXPAND(tree, True)  # Adiciona um novo nó filho
+            flag = False
         leaf = SELECT(tree)
         if leaf is None:
             continue
-        #print("leaf",leaf)
-        child = EXPAND(leaf)
+        child = EXPAND(leaf, flag)
+        flag = True
         if child is None:
             continue
-        #print("child",child)
         result = SIMULATE(child)
-        #print("result",result)
         BACK_PROPAGATE(result, child)
-    print(tree[4])
-    best_child = max(tree[4],key = lambda x:x[2])
+    best_child = max(tree[4], key=lambda x: x[3] / x[2])
     return best_child[1]
 
 
 def UCT(node):
     # calculate the UCT value of a node
     if node[2] == 0:
-        return float('inf')
-    exploration = math.sqrt(math.log(node[2] + 1) / (node[3] + 1))
+        return math.inf
+    exploration = math.sqrt(math.log(node[5][2]) / node[2])
     return node[3] / node[2] + 2 * exploration
 
 
-def EXPAND(node):
+def EXPAND(node, flag):
     # add a new child node to the tree
-    legal_actions = get_legal_actions(node[0])
+    legal_actions = get_valid_moves(node[0])
     if not legal_actions:
         return None
     chosen_action = random.choice(legal_actions)
-    new_state = get_next_state(node[0], chosen_action, 2)
+    new_state = [row[:] for row in node[0]]
+    if flag:
+        do_move(new_state, chosen_action, 2)
+    else:
+        do_move(new_state, chosen_action, 1)
     new_node = [new_state, chosen_action, 0, 0, [], node]
     node[4].append(new_node)
     return new_node
+
 
 def SELECT(node):
     # select the most promising child of a node based on UCT value
@@ -154,13 +157,20 @@ def SELECT(node):
 
 def SIMULATE(node):
     state = node[0]
+    flag = True
     while not terminal_test(state):
-        legal_actions = get_legal_actions(state)
+        legal_actions = get_valid_moves(state)
         if not legal_actions:
-            return 0 # game ended in a tie
+            return 0  # game ended in a tie
         action = random.choice(legal_actions)
-        state = get_next_state(state, action, 2)
+        if flag:
+            do_move(state, action, 2)
+            flag = False
+        else:
+            do_move(state, action, 1)
+            flag = True
     return get_result(state)
+
 
 def BACK_PROPAGATE(result, node):
     # update the win and visit count of each node along the path from the given node to the root
@@ -169,4 +179,3 @@ def BACK_PROPAGATE(result, node):
         if result == 1:
             node[3] += 1
         node = node[5]
-

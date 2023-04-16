@@ -17,7 +17,6 @@ def play_vs_minimax(board, ai_player_num):
                 break
 
             move, value = minimax(board, 4, True, -1, 2)
-            print(value)
             do_move(board, move, 2)
             imprimir_tabuleiro(board)
 
@@ -26,7 +25,6 @@ def play_vs_minimax(board, ai_player_num):
                 break
         else:
             move, value = minimax(board, 4, True, 1, 1)
-            print(value)
             do_move(board, move, 1)
             imprimir_tabuleiro(board)
 
@@ -70,7 +68,6 @@ def play_vs_alpha_beta(board, ai_player_num):
                 break
         else:
             move, value = alpha_beta(board, 4, True, -math.inf, math.inf, 1, 1)
-            print(value)
             do_move(board, move, 1)
             imprimir_tabuleiro(board)
 
@@ -105,7 +102,7 @@ def play_vs_MCTS(board, ai_player_num):
                 print("JOGADOR X GANHOU \n")
                 break
 
-            value= MONTE_CARLO_TREE_SEARCH(board, 1000)
+            value = MONTE_CARLO_TREE_SEARCH(board, 20000)
             do_move(board, value, 2)
             imprimir_tabuleiro(board)
 
@@ -113,7 +110,7 @@ def play_vs_MCTS(board, ai_player_num):
                 print("JOGADOR O GANHOU \n")
                 break
         else:
-            move= MONTE_CARLO_TREE_SEARCH(board, 1000)
+            move = MONTE_CARLO_TREE_SEARCH(board, 20000)
             do_move(board, move, 1)
             imprimir_tabuleiro(board)
 
