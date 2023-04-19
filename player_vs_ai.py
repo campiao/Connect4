@@ -86,45 +86,43 @@ def play_vs_alpha_beta(board, ai_player_num):
     if not vericar_board_vazia(board) and not verificar_vencedor(board):
         print("JOGO EMPATADO\n")
 
+from connect import ConnectState
+from mcts import MCTS
 
-def play_vs_MCTS(board, ai_player_num):
-    imprimir_tabuleiro(board)
-    while vericar_board_vazia(board):
-        if ai_player_num == 2:
+def play_vs_MCTS():
+    state = ConnectState()
+    mcts = MCTS(state)
 
-            while not jogada_pX(int(input("Jogada: ")), board):
-                imprimir_tabuleiro(board)
-                print("Movimento inválido\n")
-            imprimir_tabuleiro(board)
+    while not state.game_over():
+        print("Current state:")
+        state.print()
 
-            if verificar_vencedor(board):
-                print("JOGADOR X GANHOU \n")
-                break
+        user_move = int(input("Enter a move: "))
+        while user_move not in state.get_legal_moves():
+            print("Illegal move")
+            user_move = int(input("Enter a move: "))
 
-            value = MONTE_CARLO_TREE_SEARCH(board, 20000)
-            do_move(board, value, 2)
-            imprimir_tabuleiro(board)
+        state.move(user_move)
+        mcts.move(user_move)
 
-            if verificar_vencedor(board):
-                print("JOGADOR O GANHOU \n")
-                break
-        else:
-            move = MONTE_CARLO_TREE_SEARCH(board, 20000)
-            do_move(board, move, 1)
-            imprimir_tabuleiro(board)
+        state.print()
 
-            if verificar_vencedor(board):
-                print("JOGADOR X GANHOU \n")
-                break
+        if state.game_over():
+            print("Player one won!")
+            break
 
-            while not jogada_pY(int(input("Jogada: ")), board):
-                imprimir_tabuleiro(board)
-                print("Movimento inválido\n")
-            imprimir_tabuleiro(board)
+        print("Thinking...")
 
-            if verificar_vencedor(board):
-                print("JOGADOR O GANHOU \n")
-                break
+        mcts.search(8)
+        num_rollouts, run_time = mcts.statistics()
+        print("Statistics: ", num_rollouts, "rollouts in", run_time, "seconds")
+        move = mcts.best_move()
 
-    if not vericar_board_vazia(board) and not verificar_vencedor(board):
-        print("JOGO EMPATADO\n")
+        print("MCTS chose move: ", move)
+
+        state.move(move)
+        mcts.move(move)
+
+        if state.game_over():
+            print("Player two won!")
+            break
