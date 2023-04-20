@@ -118,5 +118,4 @@ class MCTS:
         self.root_state.move(move)
         self.root = Node(None, None)
 
-    def statistics(self) -> tuple:
-        return self.num_rollouts, self.run_time
+  
