@@ -1,5 +1,4 @@
 from player_vs_ai import *
-from ai_vs_ai import ai_vs_ai
 
 
 def jogador_vs_jogador(board):
@@ -60,26 +59,6 @@ def jogador_vs_computador():
             play_vs_MCTS()
         case 4:
             quit()
-
-
-def computador_vs_computador():
-    ai_player1 = pick_ai_adversarie(1)
-    while ai_player1 < 1 or ai_player1 > 4:
-        print("Escolha uma opcao valida...")
-        ai_player1 = pick_ai_adversarie(1)
-    print(f"Opçao escolhida: {ai_choices[ai_player1]}")
-    if ai_player1 == 4:
-        quit()
-
-    ai_player2 = pick_ai_adversarie(2)
-    while ai_player2 < 1 or ai_player2 > 4:
-        print("Escolha uma opcao valida...")
-        ai_player2 = pick_ai_adversarie(2)
-    print(f"Opçao escolhida: {ai_choices[ai_player2]}")
-    if ai_player2 == 4:
-        quit()
-
-    ai_vs_ai(ai_player1, ai_player2)
 
 
 def pick_ai_adversarie(player_num):

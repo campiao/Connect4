@@ -15,7 +15,7 @@ def play_vs_minimax(board, ai_player_num):
                 print("JOGADOR X GANHOU \n")
                 break
 
-            move, value = minimax(board, 4, True, -1, 2)
+            move, value = minimax(board, 5, True, -1, 2)
             do_move(board, move, 2)
             imprimir_tabuleiro(board)
 
@@ -23,7 +23,7 @@ def play_vs_minimax(board, ai_player_num):
                 print("JOGADOR O GANHOU \n")
                 break
         else:
-            move, value = minimax(board, 4, True, 1, 1)
+            move, value = minimax(board, 5, True, 1, 1)
             do_move(board, move, 1)
             imprimir_tabuleiro(board)
 
@@ -57,7 +57,7 @@ def play_vs_alpha_beta(board, ai_player_num):
                 print("JOGADOR X GANHOU \n")
                 break
 
-            move, value = alpha_beta(board, 4, True, -math.inf, math.inf, -1, 2)
+            move, value = alpha_beta(board, 8, True, -math.inf, math.inf, -1, 2)
             print(value)
             do_move(board, move, 2)
             imprimir_tabuleiro(board)
@@ -66,7 +66,7 @@ def play_vs_alpha_beta(board, ai_player_num):
                 print("JOGADOR O GANHOU \n")
                 break
         else:
-            move, value = alpha_beta(board, 4, True, -math.inf, math.inf, 1, 1)
+            move, value = alpha_beta(board, 8, True, -math.inf, math.inf, 1, 1)
             do_move(board, move, 1)
             imprimir_tabuleiro(board)
 
@@ -98,11 +98,11 @@ def play_vs_MCTS():
     while not state.game_over():
 
         user_move = int(input())
-        user_move -= 1;
+        user_move -= 1
         while user_move not in state.get_legal_moves():
             print("Movimento invalido")
             user_move = int(input())
-            user_move -= 1;
+            user_move -= 1
 
         state.move(user_move)
         mcts.move(user_move)
