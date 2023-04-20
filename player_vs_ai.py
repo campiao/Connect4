@@ -93,13 +93,16 @@ def play_vs_MCTS():
     state = ConnectState()
     mcts = MCTS(state)
 
+    state.print()
+
     while not state.game_over():
-        state.print()
 
         user_move = int(input())
+        user_move -= 1;
         while user_move not in state.get_legal_moves():
             print("Movimento invalido")
             user_move = int(input())
+            user_move -= 1;
 
         state.move(user_move)
         mcts.move(user_move)
@@ -110,11 +113,14 @@ def play_vs_MCTS():
             print("JOGADOR X GANHOU \n")
             break
 
-        mcts.search(5)
+        mcts.search(3)
         move = mcts.best_move()
 
         state.move(move)
         mcts.move(move)
+        print(f"{mcts.run_time}     {mcts.num_rollouts}")
+
+        state.print()
 
         if state.game_over():
             print("JOGADOR O GANHOU \n")
