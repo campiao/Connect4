@@ -1,5 +1,7 @@
 from ai_players import *
 from board_methods import *
+from connect import ConnectState
+from mcts import MCTS
 
 def play_vs_minimax(board, ai_player_num):
     imprimir_tabuleiro(board)
@@ -86,42 +88,78 @@ def play_vs_alpha_beta(board, ai_player_num):
     if not vericar_board_vazia(board) and not verificar_vencedor(board):
         print("JOGO EMPATADO\n")
 
-from connect import ConnectState
-from mcts import MCTS
+def play_vs_MCTS(ai_player_num):
+    if ai_player_num == 2:
+        state = ConnectState()
+        mcts = MCTS(state)
 
-def play_vs_MCTS():
-    state = ConnectState()
-    mcts = MCTS(state)
+        state.print()
 
-    state.print()
+        while not state.game_over():
 
-    while not state.game_over():
-
-        user_move = int(input())
-        user_move -= 1
-        while user_move not in state.get_legal_moves():
-            print("Movimento invalido")
             user_move = int(input())
             user_move -= 1
+            while user_move not in state.get_legal_moves():
+                print("Movimento invalido")
+                user_move = int(input())
+                user_move -= 1
 
-        state.move(user_move)
-        mcts.move(user_move)
+            state.move(user_move)
+            mcts.move(user_move)
+
+            state.print()
+
+            if state.game_over():
+                print("JOGADOR X GANHOU \n")
+                break
+
+            mcts.search(3)
+            move = mcts.best_move()
+
+            state.move(move)
+            mcts.move(move)
+            print("Tempo: %d segundos  ||   Rollouts: %d"%(mcts.run_time,mcts.num_rollouts))
+
+            state.print()
+
+            if state.game_over():
+                print("JOGADOR O GANHOU \n")
+                break
+    else:
+
+        state = ConnectState()
+        mcts = MCTS(state)
 
         state.print()
 
-        if state.game_over():
-            print("JOGADOR X GANHOU \n")
-            break
+        while not state.game_over():
+            mcts.search(3)
+            move = mcts.best_move()
+            state.move(move)
+            mcts.move(move)
+            print("Tempo: %d segundos  ||   Rollouts: %d"%(mcts.run_time,mcts.num_rollouts))
 
-        mcts.search(3)
-        move = mcts.best_move()
+            state.print()
 
-        state.move(move)
-        mcts.move(move)
-        print(f"{mcts.run_time}     {mcts.num_rollouts}")
+            if state.game_over():
+                print("JOGADOR X GANHOU \n")
+                break
 
-        state.print()
+            user_move = int(input())
+            user_move -= 1
+            while user_move not in state.get_legal_moves():
+                print("Movimento invalido")
+                user_move = int(input())
+                user_move -= 1
 
-        if state.game_over():
-            print("JOGADOR O GANHOU \n")
-            break
+            state.move(user_move)
+            mcts.move(user_move)
+
+            state.print()
+
+
+            if state.game_over():
+                print("JOGADOR O GANHOU \n")
+                break
+
+

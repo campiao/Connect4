@@ -56,7 +56,7 @@ def jogador_vs_computador():
         case 2:
             play_vs_alpha_beta(board_inicial, ai_player)
         case 3:
-            play_vs_MCTS()
+            play_vs_MCTS(ai_player)
         case 4:
             quit()
 
