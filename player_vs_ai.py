@@ -28,7 +28,7 @@ def play_vs_minimax(board, ai_player_num):
                 break
             start_time = time.time()
             move, value = minimax(board, 5, True, -1, 2)
-            game_moves.append(move)
+            game_moves.append(move+1)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
             moves_time.append(end_time)
@@ -42,7 +42,7 @@ def play_vs_minimax(board, ai_player_num):
         else:
             start_time = time.time()
             move, value = minimax(board, 5, True, 1, 1)
-            game_moves.append(move)
+            game_moves.append(move+1)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
             moves_time.append(end_time)
@@ -51,6 +51,7 @@ def play_vs_minimax(board, ai_player_num):
 
             if verificar_vencedor(board):
                 print("JOGADOR X GANHOU \n")
+                resultado = "Jogador 1 ganhou"
                 break
 
             while not jogada_pY(int(input("Jogada: ")), board):
@@ -60,6 +61,7 @@ def play_vs_minimax(board, ai_player_num):
 
             if verificar_vencedor(board):
                 print("JOGADOR O GANHOU \n")
+                resultado = "Jogador 2 ganhou"
                 break
 
     if not vericar_board_vazia(board) and not verificar_vencedor(board):
@@ -81,11 +83,12 @@ def play_vs_alpha_beta(board, ai_player_num):
 
             if verificar_vencedor(board):
                 print("JOGADOR X GANHOU \n")
+                resultado = "Jogador 1 ganhou"
                 break
 
             start_time = time.time()
             move, value = alpha_beta(board, 8, True, -math.inf, math.inf, -1, 2)
-            game_moves.append(move)
+            game_moves.append(move+1)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
             moves_time.append(end_time)
@@ -95,11 +98,12 @@ def play_vs_alpha_beta(board, ai_player_num):
 
             if verificar_vencedor(board):
                 print("JOGADOR O GANHOU \n")
+                resultado = "Jogador 2 ganhou"
                 break
         else:
             start_time = time.time()
             move, value = alpha_beta(board, 8, True, -math.inf, math.inf, 1, 1)
-            game_moves.append(move)
+            game_moves.append(move+1)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
             moves_time.append(end_time)
@@ -108,6 +112,7 @@ def play_vs_alpha_beta(board, ai_player_num):
 
             if verificar_vencedor(board):
                 print("JOGADOR X GANHOU \n")
+                resultado = "Jogador 1 ganhou"
                 break
 
             while not jogada_pY(int(input("Jogada: ")), board):
@@ -117,13 +122,15 @@ def play_vs_alpha_beta(board, ai_player_num):
 
             if verificar_vencedor(board):
                 print("JOGADOR O GANHOU \n")
+                resultado = "Jogador 2 ganhou"
                 break
 
     if not vericar_board_vazia(board) and not verificar_vencedor(board):
         print("JOGO EMPATADO\n")
+        resultado="Empate"
 
     if board_config.Testing:
-        print_game_stats(game_moves,moves_time,nodes_pruned)
+        print_game_stats(game_moves,moves_time,nodes_pruned,"Alpha-Beta",ai_player_num,resultado)
 
 def play_vs_MCTS(ai_player_num):
     if ai_player_num == 2:
@@ -148,6 +155,7 @@ def play_vs_MCTS(ai_player_num):
 
             if state.game_over():
                 print("JOGADOR X GANHOU \n")
+                resultado="Jogador 1 ganhou"
                 break
 
             start_time = time.time()
@@ -156,16 +164,19 @@ def play_vs_MCTS(ai_player_num):
             end_time = round(end_time,3)
             moves_time.append(end_time)
             move = mcts.best_move()
-            game_moves.append(move)
+            game_moves.append(move+1)
 
             state.move(move)
             mcts.move(move)
-            print("Tempo: %d segundos  ||   Rollouts: %d"%(mcts.run_time,mcts.num_rollouts))
+            nodes_pruned.append(mcts.num_rollouts)
+
+            #print("Tempo: %d segundos  ||   Rollouts: %d"%(mcts.run_time,mcts.num_rollouts))
 
             state.print()
 
             if state.game_over():
                 print("JOGADOR O GANHOU \n")
+                resultado="Jogador 2 ganhou"  
                 break
     else:
 
@@ -181,15 +192,18 @@ def play_vs_MCTS(ai_player_num):
             end_time = time.time()-start_time
             end_time = round(end_time, 3)
             moves_time.append(end_time)
-            game_moves.append(move)
+            game_moves.append(move+1)
             state.move(move)
             mcts.move(move)
-            print("Tempo: %d segundos  ||   Rollouts: %d"%(mcts.run_time,mcts.num_rollouts))
+            nodes_pruned.append(mcts.num_rollouts)
+            
+            #print("Tempo: %d segundos  ||   Rollouts: %d"%(mcts.run_time,mcts.num_rollouts))
 
             state.print()
 
             if state.game_over():
                 print("JOGADOR X GANHOU \n")
+                resultado=" Jogador 1 ganhou"
                 break
 
             user_move = int(input())
@@ -207,9 +221,10 @@ def play_vs_MCTS(ai_player_num):
 
             if state.game_over():
                 print("JOGADOR O GANHOU \n")
+                resultado="Jogador 2 ganhou"  
                 break
 
     if board_config.Testing:
-        print_game_stats(game_moves,moves_time,nodes_pruned)
+        print_game_stats(game_moves,moves_time,nodes_pruned,"MCTS",ai_player_num,resultado)
 
 
