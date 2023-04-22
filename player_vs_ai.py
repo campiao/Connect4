@@ -27,7 +27,8 @@ def play_vs_minimax(board, ai_player_num):
                 resultado = "Jogador 1 ganhou"
                 break
             start_time = time.time()
-            move, value = minimax(board, 5, True, -1, 2)
+            move, value, nodespruned = minimax(board, 5, True, -1, 2)
+            nodes_pruned.append(nodespruned)
             game_moves.append(move+1)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
@@ -41,7 +42,8 @@ def play_vs_minimax(board, ai_player_num):
                 break
         else:
             start_time = time.time()
-            move, value = minimax(board, 5, True, 1, 1)
+            move, value,nodespruned = minimax(board, 5, True, 1, 1)
+            nodes_pruned.append(nodespruned)
             game_moves.append(move+1)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
@@ -87,7 +89,8 @@ def play_vs_alpha_beta(board, ai_player_num):
                 break
 
             start_time = time.time()
-            move, value = alpha_beta(board, 8, True, -math.inf, math.inf, -1, 2)
+            move, value,nodespruned = alpha_beta(board, 8, True, -math.inf, math.inf, -1, 2)
+            nodes_pruned.append(nodespruned)
             game_moves.append(move+1)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
@@ -102,14 +105,14 @@ def play_vs_alpha_beta(board, ai_player_num):
                 break
         else:
             start_time = time.time()
-            move, value = alpha_beta(board, 8, True, -math.inf, math.inf, 1, 1)
+            move, value, nodespruned = alpha_beta(board, 8, True, -math.inf, math.inf, 1, 1)
             game_moves.append(move+1)
+            nodes_pruned.append(nodespruned)
             end_time = time.time()-start_time
             end_time = round(end_time,3)
             moves_time.append(end_time)
             do_move(board, move, 1)
             imprimir_tabuleiro(board)
-
             if verificar_vencedor(board):
                 print("JOGADOR X GANHOU \n")
                 resultado = "Jogador 1 ganhou"
