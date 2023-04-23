@@ -1,4 +1,4 @@
-JOGO DOS 15
+Connect4
 
 COMO CORRER?
 
