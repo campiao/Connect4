@@ -34,6 +34,6 @@ Descrição do menu:
         
 
                      
-Testado em Python com a versão 3.8.10 Windows 11 Home 22H2.
+Testado em Python com a versão 3.10.11 Windows 11 Home 22H2.
 
 Utilizamos ainda as bibliotecas:numpy.
